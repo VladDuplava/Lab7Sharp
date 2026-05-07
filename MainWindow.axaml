@@ -1,0 +1,176 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:LabAvalonia"
+        x:Class="LabAvalonia.MainWindow"
+        Title="Лабораторні роботи — Avalonia"
+        Width="900" Height="650"
+        MinWidth="750" MinHeight="550">
+
+    <DockPanel>
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#2C3E50" Padding="16,10">
+            <TextBlock Text="Лабораторні роботи з C# / Avalonia"
+                       Foreground="White" FontSize="18" FontWeight="Bold"/>
+        </Border>
+
+        <TabControl Margin="8">
+
+            <!-- ЗАВДАННЯ 1.5 -->
+            <TabItem Header="1.5 — TextBox / RichTextBox">
+                <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="12">
+
+                    <TextBlock Grid.Row="0"
+                               Text="Завдання 1.5: Додавання речень з TextBox до RichTextBox з часом операції"
+                               FontWeight="SemiBold" Margin="0,0,0,10" TextWrapping="Wrap"/>
+
+                    <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto" Margin="0,0,0,8">
+                        <TextBox x:Name="InputTextBox"
+                                 Grid.Column="0"
+                                 Watermark="Введіть речення..."
+                                 Margin="0,0,8,0"/>
+                        <Button x:Name="AddSentenceBtn"
+                                Grid.Column="1"
+                                Content="Додати"
+                                Click="OnAddSentence"
+                                Background="#27AE60" Foreground="White"
+                                Margin="0,0,8,0" Padding="16,8"/>
+                        <Button Grid.Column="2"
+                                Content="Очистити"
+                                Click="OnClearRich"
+                                Background="#E74C3C" Foreground="White"
+                                Padding="16,8"/>
+                    </Grid>
+
+                    <Border Grid.Row="2" BorderBrush="#BDC3C7" BorderThickness="1" CornerRadius="4">
+                        <ScrollViewer x:Name="RichScroll">
+                            <ItemsControl x:Name="RichTextList" Margin="8">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="local:RichTextEntry">
+                                        <Border Margin="0,2" Padding="6,4"
+                                                Background="#F8F9FA" CornerRadius="3">
+                                            <Grid ColumnDefinitions="Auto,*">
+                                                <TextBlock Grid.Column="0"
+                                                           Text="{Binding Time}"
+                                                           Foreground="#7F8C8D"
+                                                           FontFamily="Courier New"
+                                                           FontSize="11"
+                                                           Margin="0,0,10,0"
+                                                           VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="1"
+                                                           Text="{Binding Text}"
+                                                           TextWrapping="Wrap"
+                                                           VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+
+                    <TextBlock x:Name="StatusLabel1" Grid.Row="3"
+                               Margin="0,6,0,0" Foreground="#7F8C8D" FontSize="12"/>
+                </Grid>
+            </TabItem>
+
+            <!-- ЗАВДАННЯ 2.5 -->
+            <TabItem Header="2.5 — BMP RGB-канали">
+                <Grid RowDefinitions="Auto,*,Auto" Margin="12">
+
+                    <TextBlock Grid.Row="0"
+                               Text="Завдання 2.5: Пригнічення кольорових складових BMP зображення"
+                               FontWeight="SemiBold" Margin="0,0,0,10" TextWrapping="Wrap"/>
+
+                    <Grid Grid.Row="1" ColumnDefinitions="*,12,*">
+
+                        <StackPanel Grid.Column="0" Spacing="10">
+                            <Button Content="Відкрити BMP..."
+                                    Click="OnOpenBmp"
+                                    Background="#2980B9" Foreground="White"
+                                    HorizontalAlignment="Stretch" Padding="0,10"/>
+
+                            <Border BorderBrush="#BDC3C7" BorderThickness="1"
+                                    CornerRadius="4" Padding="12">
+                                <StackPanel Spacing="8">
+                                    <TextBlock Text="Пригнітити канал:" FontWeight="SemiBold"/>
+                                    <RadioButton x:Name="RadioRed"   Content="Червоний (R)" GroupName="Channel" IsChecked="True"/>
+                                    <RadioButton x:Name="RadioGreen" Content="Зелений (G)"  GroupName="Channel"/>
+                                    <RadioButton x:Name="RadioBlue"  Content="Синій (B)"    GroupName="Channel"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Button Content="Застосувати"
+                                    Click="OnApplyChannel"
+                                    Background="#8E44AD" Foreground="White"
+                                    HorizontalAlignment="Stretch" Padding="0,10"/>
+
+                            <Button Content="Зберегти BMP..."
+                                    Click="OnSaveBmp"
+                                    Background="#27AE60" Foreground="White"
+                                    HorizontalAlignment="Stretch" Padding="0,10"/>
+
+                            <Border Background="#ECF0F1" CornerRadius="4" Padding="10">
+                                <TextBlock x:Name="BmpInfoLabel"
+                                           Text="Файл не завантажено"
+                                           TextWrapping="Wrap"
+                                           Foreground="#7F8C8D" FontSize="12"/>
+                            </Border>
+                        </StackPanel>
+
+                        <Grid Grid.Column="2" RowDefinitions="*,8,*">
+                            <Border Grid.Row="0" BorderBrush="#BDC3C7" BorderThickness="1" CornerRadius="4">
+                                <StackPanel>
+                                    <TextBlock Text="Оригінал" FontSize="11" Foreground="#7F8C8D"
+                                               HorizontalAlignment="Center" Margin="0,4"/>
+                                    <Image x:Name="OriginalImage" Stretch="Uniform" MaxHeight="200"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Row="2" BorderBrush="#BDC3C7" BorderThickness="1" CornerRadius="4">
+                                <StackPanel>
+                                    <TextBlock Text="Результат" FontSize="11" Foreground="#7F8C8D"
+                                               HorizontalAlignment="Center" Margin="0,4"/>
+                                    <Image x:Name="ResultImage" Stretch="Uniform" MaxHeight="200"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+
+                    <TextBlock x:Name="StatusLabel2" Grid.Row="2"
+                               Margin="0,6,0,0" Foreground="#7F8C8D" FontSize="12"/>
+                </Grid>
+            </TabItem>
+
+            <!-- ЗАВДАННЯ 3.5 -->
+            <TabItem Header="3.5 — Малювання фігур">
+                <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="12">
+
+                    <TextBlock Grid.Row="0"
+                               Text="Завдання 3.5: Круг, Сектор, Зафарбований прямокутник, Зірка (випадкові координати)"
+                               FontWeight="SemiBold" Margin="0,0,0,10" TextWrapping="Wrap"/>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                        <Button Content="Генерувати фігури"
+                                Click="OnGenerateShapes"
+                                Background="#2C3E50" Foreground="White"
+                                Padding="16,8"/>
+                        <Button Content="Очистити"
+                                Click="OnClearShapes"
+                                Background="#E74C3C" Foreground="White"
+                                Padding="16,8"/>
+                        <TextBlock x:Name="ShapeCountLabel"
+                                   VerticalAlignment="Center"
+                                   Foreground="#7F8C8D" FontSize="13"/>
+                    </StackPanel>
+
+                    <Border Grid.Row="2" BorderBrush="#BDC3C7" BorderThickness="1" CornerRadius="4">
+                        <Canvas x:Name="DrawingCanvas" Background="White" ClipToBounds="True"/>
+                    </Border>
+
+                    <TextBlock x:Name="StatusLabel3" Grid.Row="3"
+                               Margin="0,6,0,0" Foreground="#7F8C8D" FontSize="12"/>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </DockPanel>
+</Window>
